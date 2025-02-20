@@ -1,0 +1,33 @@
+const express = require('express');
+const router = express.Router();
+const User_Controller = require('../Controllers/User_Controller');
+const multer = require('multer');
+const authMiddleware = require('../Middlewares/Authenticate'); 
+
+// Multer setup for file uploads (photo & resume)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// 📋 Register User (with optional photo & resume)
+router.post('/register', upload.fields([{ name: 'photo' }, { name: 'resume' }]), User_Controller.Register_User);
+
+// 🔑 Login User
+router.post('/login', User_Controller.Login_User);
+
+// 🚪 Logout User (Protected)
+router.post('/logout', authMiddleware, User_Controller.Logout_User);
+
+// ✏️ Update User Profile (Protected, with file upload)
+router.put('/update/:id', authMiddleware, upload.fields([{ name: 'photo' }, { name: 'resume' }]), User_Controller.Update_User);
+
+// 🆔 Get User Profile by Token (Protected)
+router.get('/profile', authMiddleware, User_Controller.Get_User_Profile);
+
+// Log Out
+
+router.post('/logout', authMiddleware, User_Controller.Logout_User);
+
+// 📋 Get All Users (Protected - Admin Only)
+router.get('/all', authMiddleware, User_Controller.Get_All_Users);
+
+module.exports = router;
