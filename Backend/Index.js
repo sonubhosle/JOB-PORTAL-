@@ -8,6 +8,8 @@ dotenv.config({path:"./Config/Config.env"});
 
 Database_Connection()
 
-app.listen(process.env.PORT, () =>{
-    console.log(`http://localhost:${process.env.PORT}`)
+const PORT = process.env.PORT || 5059
+
+app.listen(PORT, () =>{
+    console.log(`http://localhost:${PORT}`)
 })
