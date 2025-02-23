@@ -3,6 +3,7 @@ const router = express.Router();
 const User_Controller = require('../Controllers/User_Controller');
 const multer = require('multer');
 const authMiddleware = require('../Middlewares/Authenticate'); 
+const User = require('../Models/User');
 
 // Multer setup for file uploads (photo & resume)
 const storage = multer.memoryStorage();
@@ -29,5 +30,13 @@ router.post('/logout', authMiddleware, User_Controller.Logout_User);
 
 // 📋 Get All Users (Protected - Admin Only)
 router.get('/all', authMiddleware, User_Controller.Get_All_Users);
+
+
+// Get related applied jobs
+router.get('/applied/related/:jobId', authMiddleware, User_Controller.Get_Related_Applied_Jobs);
+
+// Get related applied jobs
+router.get('/applied-jobs', authMiddleware, User_Controller.Get_All_Applied_Jobs);
+
 
 module.exports = router;

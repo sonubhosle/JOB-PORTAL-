@@ -6,13 +6,10 @@ const ResumeSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    fileUrl: {
-        type: String, // Uploaded file path or URL
-        required: true,
-    },
+
     fullName: {
         type: String,
-        required: true,s
+        required: true,
     },
     dob: {
         type: Date,

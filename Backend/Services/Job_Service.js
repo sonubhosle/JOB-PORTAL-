@@ -1,6 +1,7 @@
-const Job = require('../Models/Job');
+const Job = require('../Models/Jobs');
 const path = require('path');
 const fs = require('fs');
+const User = require('../Models/User')
 
 // ✅ Create Job
 const Create_Job = async (jobData, companyLogoFile) => {
@@ -55,12 +56,22 @@ const Get_Jobs_By_Category = async (category) => {
 const Get_Related_Jobs = async (jobId) => {
     try {
         const job = await Job.findById(jobId);
-        return await Job.find({ category: job.category, _id: { $ne: jobId } });
+        if (!job) throw new Error('Job not found with the provided ID');
+
+        // Partial title match for related jobs
+        const partialTitle = job.title.split(' ')[0];
+
+        const relatedJobs = await Job.find({
+            title: { $regex: partialTitle, $options: 'i' },
+            _id: { $ne: jobId }
+        });
+
+        return relatedJobs;
     } catch (error) {
         throw new Error(error.message);
-
     }
 };
+
 
 // ✅ Update Job
 const Update_Job = async (jobId, updatedData, companyLogoFile) => {
@@ -91,27 +102,39 @@ const Delete_Job = async (jobId) => {
 }
 
 // ✅ Get Job History (by user)
-const Get_Job_History = async (userId) => {
-    try {
-        const history = await Job.find({ appliedUsers: userId })
-        return history
-    } catch (error) {
-        throw new Error(error.message);
 
-    }
+const Get_Job_History = async (userId) => {
+  try {
+    // ✅ Fetch user's job history and populate job details
+    const user = await User.findById(userId)
+      .populate('history.applications.job') // Populates job details
+      .select('history.applications'); // Only select history
+
+    if (!user) throw new Error('User not found');
+
+    return user.history.applications;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 // ✅ Get Applied Jobs (by user)
 const Get_Applied_Jobs = async (userId) => {
     try {
-        const applied = await Job.find({ 'appliedUsers.userId': userId });
-        if (!applied) throw new Error("There is no applied jobs")
+        const user = await User.findById(userId).populate({
+            path: 'appliedJobs',
+            select: 'title company location category', // Adjust fields as needed
+        });
+
+        if (!user || user.appliedJobs.length === 0) {
+            throw new Error("There are no applied jobs");
+        }
+
+        return user.appliedJobs;
     } catch (error) {
         throw new Error(error.message);
-
     }
 };
-
 module.exports = {
     Create_Job,
     Get_All_Jobs,
