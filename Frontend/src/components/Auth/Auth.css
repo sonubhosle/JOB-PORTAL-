@@ -1,0 +1,112 @@
+.auth-model {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background-color: #fff;
+    outline: none;
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.auth-container{
+    width: 100%;
+    height: auto;
+}
+
+.auth-container .message{
+    position: fixed;
+    background-color: #fff;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #444;
+    font-size: 20px;
+}
+
+.auth-container .error-message{
+    color: crimson;
+}
+
+.auth-container .success-message{
+    color: teal;
+}
+.auth-container h2{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.auth-container form{
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 15px;
+}
+
+.auth-container form .input_box{
+    width: 100%;
+    position: relative;
+    margin: 15px auto;
+}
+
+
+.input_box .name{
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.input_box input{
+    width: 100%;
+    height: 50px;
+    border: 1px solid #dbdbdb;
+    background-color: #edfafc;
+    padding-left: 15px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    outline: none;
+    border-radius: 5px;
+
+}
+
+.input_box button{
+    width: 100%;
+    height: 50px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 20px;
+    background-color: blueviolet;
+    color: #fff;
+}
+
+
+.auth-container .navigate{
+    display: flex;
+    align-items: center;
+    padding: 20px 0px;
+    display: flex;
+   justify-content: center;
+   gap: 5px;
+}
+
+.auth-container .navigate p{
+    font-size: 20px;
+    color: #444;
+    font-weight: 500;
+}
+
+.auth-container .navigate a{
+    color: blueviolet;
+    font-weight: 600;
+    font-size: 20px;
+
+}
